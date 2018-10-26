@@ -85,7 +85,8 @@ The `renderNode` keys should be one of the following `BLOCKS` and `INLINES` prop
 
 The `renderMark` keys should be one of the following `MARKS` properties as defined in [`@contentful/rich-text-types`](https://www.npmjs.com/package/@contentful/rich-text-types):
 
-- `BOLD`
-- `ITALIC`
-- `UNDERLINE`
-- `CODE`
+- `MARKS`
+  - `BOLD`
+  - `ITALIC`
+  - `UNDERLINE`
+  - `CODE`
