@@ -1,34 +1,35 @@
-const { documentToHtmlString } = '@contentful/rich-text-html-renderer';
+const { documentToHtmlString } = require ('@contentful/rich-text-html-renderer')
 const {
   GraphQLString,
 } = require(`gatsby/graphql`)
 
+let pathPrefixCacheStr = ``
 const htmlCacheKey = node =>
   `transformer-contentful-rich-text-html-${
     node.internal.contentDigest
-  }-${pluginsCacheStr}-${pathPrefixCacheStr}`
-
-const htmlCacheKey = node =>
-  `transformer-contentful-rich-text-html-${
-    node.internal.contentDigest
-  }-${pluginsCacheStr}-${pathPrefixCacheStr}`
+  }-${pathPrefixCacheStr}`
 
 module.exports = (
-  { type, store, pathPrefix, getNode, getNodes, cache, reporter },
+  { type, cache, pathPrefix },
   pluginOptions
 ) => {
   if (type.name !== `ContentfulRichText`) {
     return {}
   }
 
+  pathPrefixCacheStr = pathPrefix || ``
+
+  let { renderOptions } = pluginOptions
+  renderOptions = renderOptions || {}
+
   return new Promise((resolve, reject) => {
-    const {renderOptions} = pluginOptions
     async function getHTML(richTextNode) {
       const cachedHTML = await cache.get(htmlCacheKey(richTextNode))
+
       if (cachedHTML) {
         return cachedHTML
       } else {
-        const html = documentToHtmlString(document, renderOptions)
+        const html = documentToHtmlString(richTextNode.internal.content, renderOptions)
         // Save new HTML to cache and return
         cache.set(htmlCacheKey(richTextNode), html)
         return html
@@ -38,6 +39,7 @@ module.exports = (
       html: {
         type: GraphQLString,
         resolve(richTextNode) {
+          debugger
           return getHTML(richTextNode)
         },
       }
