@@ -1,6 +1,6 @@
 # gatsby-transformer-contentful-richtext
 
-Parses Contentful Rich text schema
+Parses Contentful Rich Text document
 
 ## Install
 
