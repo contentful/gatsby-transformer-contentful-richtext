@@ -41,7 +41,6 @@
   "homepage": "https://github.com/contentful/gatsby-transformer-contentful-richtext#readme",
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^2.9.1",
-    "gatsby": "^2.0.29",
     "lodash": "^4.17.11"
   }
 }
