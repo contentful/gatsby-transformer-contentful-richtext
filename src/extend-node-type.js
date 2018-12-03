@@ -1,7 +1,5 @@
-const { documentToHtmlString } = require ('@contentful/rich-text-html-renderer')
-const {
-  GraphQLString,
-} = require(`gatsby/graphql`)
+const { documentToHtmlString } = require("@contentful/rich-text-html-renderer")
+const { GraphQLString } = require(`gatsby/graphql`)
 
 let pathPrefixCacheStr = ``
 const htmlCacheKey = node =>
@@ -9,10 +7,7 @@ const htmlCacheKey = node =>
     node.internal.contentDigest
   }-${pathPrefixCacheStr}`
 
-module.exports = (
-  { type, cache, pathPrefix },
-  pluginOptions
-) => {
+module.exports = ({ type, cache, pathPrefix }, pluginOptions) => {
   if (type.name !== `ContentfulRichText`) {
     return {}
   }
@@ -29,7 +24,10 @@ module.exports = (
       if (cachedHTML) {
         return cachedHTML
       } else {
-        const html = documentToHtmlString(richTextNode.internal.content, renderOptions)
+        const html = documentToHtmlString(
+          JSON.parse(richTextNode.internal.content),
+          renderOptions
+        )
         // Save new HTML to cache and return
         cache.set(htmlCacheKey(richTextNode), html)
         return html
@@ -42,7 +40,7 @@ module.exports = (
           debugger
           return getHTML(richTextNode)
         },
-      }
+      },
     })
   })
 }

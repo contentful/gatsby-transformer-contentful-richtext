@@ -22,7 +22,9 @@ After adding the plugin you will be able to query the html representation of the
 {
   allContentfulBlogPost {
     bodyRichText {
-      html
+      childContentfulRichText {
+        html
+      }
     }
   }
 }
